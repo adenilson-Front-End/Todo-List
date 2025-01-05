@@ -1,16 +1,39 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Feather } from '@expo/vector-icons';
 import Header from "../../components/Header";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../Contexts";
+import { useNavigation } from "@react-navigation/native";
 
 
 export default function Home() {
+
+    const { addTarefas } = useContext(AuthContext);
+    const [ input, setIput ] = useState('')
+
+    const navigation = useNavigation()
+    async function handleAddTarefas() {
+
+
+
+        if (input === '') {
+            alert('Digite uma tarefa!');
+            return;
+        }
+        navigation.navigate('Tarefas')
+        await addTarefas(input);
+        setIput('')
+    }
     return (
         <TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => Keyboard.dismiss()} >
             <View style={styles.container}>
                 <Header title={'Criar tarefas'} />
                 <View style={styles.areaDados}>
-                    <TextInput style={styles.input} placeholder="Nova tarefa..." />
-                    <TouchableOpacity style={styles.button} activeOpacity={.7}>
+                    <TextInput
+                        value={input}
+                        onChangeText={(value) => setIput(value)}
+                        style={styles.input} placeholder="Nova tarefa..." />
+                    <TouchableOpacity style={styles.button} activeOpacity={.7} onPress={(handleAddTarefas)}>
                         <Feather name="plus" size={25} color="#000" />
                     </TouchableOpacity>
                 </View>

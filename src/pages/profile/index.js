@@ -1,16 +1,23 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import Header from "../../components/Header";
+import { useContext } from "react";
+import { AuthContext } from "../../Contexts";
 
 export default function Profile() {
 
-    const navigation = useNavigation()
+    const { imageProfile, pickerImageProfile } = useContext(AuthContext)
+    const navigation = useNavigation();
+
+    async function handlePickerImage() {
+        await pickerImageProfile();
+    }
     return (
         <View style={styles.container}>
             <Header title={'Perfil'} />
             <View style={styles.areaItens}>
-                <TouchableOpacity style={styles.areaAvatar}>
-                    <Image style={styles.avatar} source={require('../../imgs/Avatar.png')} />
+                <TouchableOpacity style={styles.areaAvatar} onPress={handlePickerImage}>
+                    <Image style={styles.avatar} source={imageProfile === null ? require('../../imgs/Avatar.png') : { uri: imageProfile }} />
                 </TouchableOpacity>
 
 
@@ -53,9 +60,12 @@ const styles = StyleSheet.create({
         borderRadius: 200 / 2 * 100
     },
     avatar: {
-        width: 180,
-        height: 180,
+        width: 200,
+        height: 200,
         zIndex: 3,
+        borderWidth: 4,
+        borderColor: '#dcdcdc',
+        borderRadius: 180 / 2 * 100,
         objectFit: 'cover',
 
     },
