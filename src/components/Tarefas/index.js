@@ -1,24 +1,39 @@
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Feather } from '@expo/vector-icons'
 import Header from "../Header";
-export default function Tarefas({ data }) {
+import { useContext } from "react";
+import { AuthContext } from "../../Contexts";
+export default function Tarefas({ data, deleteItem, finalizarTarf }) {
+
+    const { tarefas } = useContext(AuthContext)
+    console.log(tarefas.length > 0)
     return (
         <View style={styles.containerItens}>
 
 
-            <View style={styles.areaItem}>
-                <Text numberOfLines={1} style={{ width: 250, fontSize: 20, marginLeft: 8, fontWeight: "bold" }}>{data.name}</Text>
+            {tarefas.length > 0 ? (
+                <View style={styles.areaItem}>
+                    <Text numberOfLines={1} style={{ width: 250, fontSize: 20, marginLeft: 8, fontWeight: "bold" }}>{data.name}</Text>
 
-                <View style={styles.areaButtons}>
-                    <TouchableOpacity style={styles.button}>
-                        <Feather name="edit-2" size={15} color="#fff" />
-                    </TouchableOpacity>
+                    <View style={styles.areaButtons}>
+                        <TouchableOpacity style={styles.button}>
+                            <Feather name="edit-2" size={15} color="#fff" />
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.button}>
-                        <Feather name="trash-2" size={15} color="#fff" />
-                    </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={deleteItem}>
+                            <Feather name="trash-2" size={15} color="#fff" />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.button} onPress={finalizarTarf}>
+                            <Feather name="check-square" size={15} color="#fff" />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
+            ) : (
+                <View>
+                    <Text style={{ color: '#fff' }}>Nenhuma tarefa por aqui!!</Text>
+                </View>
+            )}
         </View>
     )
 }
@@ -42,7 +57,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     areaButtons: {
-        width: "20%",
+        width: "30%",
         height: '100%',
         flexDirection: 'row',
         alignItems: 'center',

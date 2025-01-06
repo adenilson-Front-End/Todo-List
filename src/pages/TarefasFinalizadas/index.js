@@ -7,14 +7,16 @@ import Header from "../../components/Header";
 
 export default function TarefasFinalizadas() {
 
-    const { tarefas } = useContext(AuthContext)
+    const { tarefasFinalizadas } = useContext(AuthContext)
+
+
     return (
         <View style={styles.container}>
             <View style={styles.areaHeader}>
                 <Header title={'Tarefas finalizadas'} />
             </View>
             <FlatList
-                data={tarefas}
+                data={tarefasFinalizadas}
                 keyExtractor={item => String(item.id)}
                 renderItem={({ item }) => <Finalizadas data={item} />}
             />

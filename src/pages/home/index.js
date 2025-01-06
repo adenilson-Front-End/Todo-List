@@ -24,6 +24,10 @@ export default function Home() {
         await addTarefas(input);
         setIput('')
     }
+
+
+
+
     return (
         <TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => Keyboard.dismiss()} >
             <View style={styles.container}>

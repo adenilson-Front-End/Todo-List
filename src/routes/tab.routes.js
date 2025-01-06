@@ -31,6 +31,8 @@ export default function AuthTab() {
                     ),
                     headerShown: false,
                 }}
+
+
             />
             <TabAuth.Screen
                 name="Finalizadas"

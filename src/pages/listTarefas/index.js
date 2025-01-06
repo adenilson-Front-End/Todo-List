@@ -1,12 +1,27 @@
-import { useContext } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from "react-native";
-import { AuthContext } from "../../Contexts";
-import Tarefas from "../../components/Tarefas";
-import Header from "../../components/Header";
+import { useContext } from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    FlatList,
+} from 'react-native';
+import { AuthContext } from '../../Contexts';
+import Tarefas from '../../components/Tarefas';
+import Header from '../../components/Header';
 
 export default function ListTarefas() {
+    const { tarefas, deleteTarefa, finalizarTarefa } = useContext(AuthContext);
 
-    const { tarefas } = useContext(AuthContext)
+    async function handleDelete(item) {
+        deleteTarefa(item);
+    }
+
+    async function handleFinalizarTarefa(name, id) {
+        await finalizarTarefa(name);
+        deleteTarefa(id);
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.areaHeader}>
@@ -14,29 +29,30 @@ export default function ListTarefas() {
             </View>
             <View style={styles.areaItens}>
                 <FlatList
-
-
                     data={tarefas}
-                    keyExtractor={item => String(item.id)}
-                    renderItem={({ item }) => <Tarefas data={item} />}
+                    keyExtractor={(item) => String(item.id)}
+                    renderItem={({ item }) => (
+                        <Tarefas
+                            data={item}
+                            deleteItem={() => handleDelete(item.id)}
+                            finalizarTarf={() => handleFinalizarTarefa(item.name, item.id)}
+                        />
+                    )}
                 />
             </View>
         </View>
-    )
+    );
 }
 const styles = StyleSheet.create({
     container: {
-
         flex: 1,
 
         backgroundColor: '#000',
-
     },
 
     areaHeader: {
         width: '100%',
         height: 50,
-
     },
     areaItens: {
         flex: 2,
@@ -44,5 +60,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 4,
-    }
-})
+    },
+});
