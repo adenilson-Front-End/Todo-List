@@ -9,10 +9,20 @@ import {
 
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../Contexts';
 
 export default function SignUp() {
+    const { registerUser, setUser } = useContext(AuthContext);
+    const [ nome, setNome ] = useState('');
+    const [ email, setEmail ] = useState('');
+    const [ password, setPassword ] = useState('')
 
-    const navigation = useNavigation()
+    const navigation = useNavigation();
+
+    async function handleRegister() {
+        await registerUser(email, password, nome, setUser);
+    }
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.buttonIcon} onPress={() => navigation.navigate('SignIn')}>
@@ -23,10 +33,21 @@ export default function SignUp() {
                 source={require('../../imgs/bgSiginUp.png')}
             />
             <View style={styles.formulario}>
-                <TextInput style={styles.input} placeholder="Seu nome..." />
-                <TextInput style={styles.input} placeholder="Seu email..." />
-                <TextInput style={styles.input} secureTextEntry={true} placeholder="Sua senha..." />
-                <TouchableOpacity style={styles.button} activeOpacity={0.8}>
+                <TextInput
+                    value={nome}
+                    onChangeText={(value) => setNome(value)}
+                    style={styles.input} placeholder="Seu nome..." />
+                <TextInput
+                    value={email}
+                    onChangeText={(value) => setEmail(value)}
+                    style={styles.input} placeholder="Seu email..." />
+                <TextInput
+                    value={password}
+                    onChangeText={(value) => setPassword(value)}
+                    style={styles.input} secureTextEntry={true} placeholder="Sua senha..." />
+                <TouchableOpacity style={styles.button} activeOpacity={0.8}
+                    onPress={handleRegister}
+                >
                     <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Criar conta</Text>
                 </TouchableOpacity>
             </View>

@@ -5,7 +5,7 @@ import { AuthContext } from "../../Contexts";
 
 export default function DrawerCustomer(props) {
 
-    const { imageProfile } = useContext(AuthContext)
+    const { imageProfile, user } = useContext(AuthContext)
     return (
         <DrawerContentScrollView {...props}>
             <View style={styles.container}>
@@ -13,7 +13,7 @@ export default function DrawerCustomer(props) {
                     <Image style={styles.avatar} source={imageProfile === null ? require('../../imgs/Avatar.png') : { uri: imageProfile }} />
                 </View>
                 <Text style={styles.saudacao}>Bem-vindo!</Text>
-                <Text style={styles.nameUser} numberOfLines={1}>Adenilson Rosa</Text>
+                <Text style={styles.nameUser} numberOfLines={1}>{user.name}</Text>
             </View>
 
             <DrawerItemList {...props} />

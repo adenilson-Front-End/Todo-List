@@ -1,18 +1,26 @@
 import { getFirestore } from "firebase/firestore";
+import { initializeAuth, getReactNativePersistence } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { initializeApp } from "firebase/app";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 const firebaseConfig = {
-    apiKey: "AIzaSyDbkZfYgTWEmz5_K5SmH2jRhLGE3pqpAUQ",
-    authDomain: "todolist-587f2.firebaseapp.com",
-    projectId: "todolist-587f2",
-    storageBucket: "todolist-587f2.firebasestorage.app",
-    messagingSenderId: "161331094558",
-    appId: "1:161331094558:web:6f672d0f11173b3c35ba0f"
+    apiKey: "AIzaSyA6x51CPgMjvKZ19wfBDsUbyFiwX0ncPIM",
+    authDomain: "todolist-fc583.firebaseapp.com",
+    projectId: "todolist-fc583",
+    storageBucket: "todolist-fc583.firebasestorage.app",
+    messagingSenderId: "531426644441",
+    appId: "1:531426644441:web:494cd9506ccd80f3aac9c8"
 };
 
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export { db };
+const auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(AsyncStorage)
+})
+
+
+export { db, auth };
 

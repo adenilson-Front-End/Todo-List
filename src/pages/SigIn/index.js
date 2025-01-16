@@ -5,15 +5,31 @@ import {
     Image,
     TouchableOpacity,
     TextInput,
+    ActivityIndicator,
 } from 'react-native';
 
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../Contexts';
 
 export default function SignIn() {
+    const { loginUser, setUser, authUser } = useContext(AuthContext);
+    const [ email, setEmail ] = useState('');
+    const [ password, setPassword ] = useState('');
+    async function handleSigIn() {
+
+        if (email === '' || password === '') {
+            alert('Preencha todos os campos!');
+            return;
+        }
+        await loginUser(email, password, setUser);
+    }
 
     const navigation = useNavigation()
     return (
+
+
         <View style={styles.container}>
             <TouchableOpacity style={styles.buttonIcon} onPress={() => navigation.navigate('Inicio')}>
                 <Feather style={styles.icon} name='arrow-left' size={30} color={'#000'} />
@@ -23,10 +39,22 @@ export default function SignIn() {
                 source={require('../../imgs/bgLogin.png')}
             />
             <View style={styles.formulario}>
-                <TextInput style={styles.input} placeholder="Seu email..." />
-                <TextInput style={styles.input} secureTextEntry={true} placeholder="Sua senha..." />
-                <TouchableOpacity style={styles.button} activeOpacity={0.8}>
-                    <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Entrar</Text>
+                <TextInput
+                    value={email}
+                    onChangeText={(value) => setEmail(value)}
+                    style={styles.input} placeholder="Seu email..." />
+                <TextInput
+                    value={password}
+                    onChangeText={(value) => setPassword(value)}
+                    style={styles.input} secureTextEntry={true} placeholder="Sua senha..." />
+                <TouchableOpacity style={styles.button} activeOpacity={0.8}
+                    onPress={handleSigIn}>
+                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Text style={{ fontSize: 22, fontWeight: 'bold', marginRight: 8 }}>Entrar </Text>
+                        {authUser && (
+                            <ActivityIndicator size={30} color={'#000'} />
+                        )}
+                    </View>
                 </TouchableOpacity>
             </View>
         </View>

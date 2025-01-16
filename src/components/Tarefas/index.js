@@ -6,34 +6,33 @@ import { AuthContext } from "../../Contexts";
 export default function Tarefas({ data, deleteItem, finalizarTarf }) {
 
     const { tarefas } = useContext(AuthContext)
-    console.log(tarefas.length > 0)
+
+    console.log(tarefas.length)
+
     return (
         <View style={styles.containerItens}>
 
 
-            {tarefas.length > 0 ? (
-                <View style={styles.areaItem}>
-                    <Text numberOfLines={1} style={{ width: 250, fontSize: 20, marginLeft: 8, fontWeight: "bold" }}>{data.name}</Text>
 
-                    <View style={styles.areaButtons}>
-                        <TouchableOpacity style={styles.button}>
-                            <Feather name="edit-2" size={15} color="#fff" />
-                        </TouchableOpacity>
+            <View style={styles.areaItem}>
+                <Text numberOfLines={1} style={{ width: 250, fontSize: 20, marginLeft: 8, fontWeight: "bold" }}>{data.tarefa}</Text>
 
-                        <TouchableOpacity style={styles.button} onPress={deleteItem}>
-                            <Feather name="trash-2" size={15} color="#fff" />
-                        </TouchableOpacity>
+                <View style={styles.areaButtons}>
+                    <TouchableOpacity style={styles.button}>
+                        <Feather name="edit-2" size={15} color="#fff" />
+                    </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.button} onPress={finalizarTarf}>
-                            <Feather name="check-square" size={15} color="#fff" />
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity style={styles.button} onPress={deleteItem}>
+                        <Feather name="trash-2" size={15} color="#fff" />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.button} onPress={finalizarTarf}>
+                        <Feather name="check-square" size={15} color="#fff" />
+                    </TouchableOpacity>
                 </View>
-            ) : (
-                <View>
-                    <Text style={{ color: '#fff' }}>Nenhuma tarefa por aqui!!</Text>
-                </View>
-            )}
+            </View>
+
+
         </View>
     )
 }

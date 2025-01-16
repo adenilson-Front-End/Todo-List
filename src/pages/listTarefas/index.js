@@ -11,16 +11,8 @@ import Tarefas from '../../components/Tarefas';
 import Header from '../../components/Header';
 
 export default function ListTarefas() {
-    const { tarefas, deleteTarefa, finalizarTarefa } = useContext(AuthContext);
+    const { tarefas } = useContext(AuthContext);
 
-    async function handleDelete(item) {
-        deleteTarefa(item);
-    }
-
-    async function handleFinalizarTarefa(name, id) {
-        await finalizarTarefa(name);
-        deleteTarefa(id);
-    }
 
     return (
         <View style={styles.container}>
@@ -30,12 +22,12 @@ export default function ListTarefas() {
             <View style={styles.areaItens}>
                 <FlatList
                     data={tarefas}
+
                     keyExtractor={(item) => String(item.id)}
                     renderItem={({ item }) => (
                         <Tarefas
                             data={item}
-                            deleteItem={() => handleDelete(item.id)}
-                            finalizarTarf={() => handleFinalizarTarefa(item.name, item.id)}
+
                         />
                     )}
                 />

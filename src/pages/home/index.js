@@ -8,25 +8,29 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function Home() {
 
-    const { addTarefas } = useContext(AuthContext);
-    const [ input, setIput ] = useState('')
 
-    const navigation = useNavigation()
-    async function handleAddTarefas() {
+    const [ input, setInput ] = useState('')
 
+    const { addTarefa } = useContext(AuthContext);
 
 
+    async function handleTarefa() {
         if (input === '') {
-            alert('Digite uma tarefa!');
+            alert('Digite uma tarefa');
             return;
         }
-        navigation.navigate('Tarefas')
-        await addTarefas(input);
-        setIput('')
+
+        try {
+            await addTarefa(input);
+
+            alert('Tarefa cadastrada');
+
+            return;
+        } catch (err) {
+            console.log(err)
+
+        }
     }
-
-
-
 
     return (
         <TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => Keyboard.dismiss()} >
@@ -35,9 +39,9 @@ export default function Home() {
                 <View style={styles.areaDados}>
                     <TextInput
                         value={input}
-                        onChangeText={(value) => setIput(value)}
+                        onChangeText={(value) => setInput(value)}
                         style={styles.input} placeholder="Nova tarefa..." />
-                    <TouchableOpacity style={styles.button} activeOpacity={.7} onPress={(handleAddTarefas)}>
+                    <TouchableOpacity style={styles.button} activeOpacity={.7} onPress={handleTarefa} >
                         <Feather name="plus" size={25} color="#000" />
                     </TouchableOpacity>
                 </View>

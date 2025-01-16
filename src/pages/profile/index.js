@@ -6,22 +6,21 @@ import { AuthContext } from "../../Contexts";
 
 export default function Profile() {
 
-    const { imageProfile, pickerImageProfile } = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
     const navigation = useNavigation();
+    const { logOut } = useContext(AuthContext)
 
-    async function handlePickerImage() {
-        await pickerImageProfile();
-    }
+
     return (
         <View style={styles.container}>
             <Header title={'Perfil'} />
             <View style={styles.areaItens}>
-                <TouchableOpacity style={styles.areaAvatar} onPress={handlePickerImage}>
-                    <Image style={styles.avatar} source={imageProfile === null ? require('../../imgs/Avatar.png') : { uri: imageProfile }} />
+                <TouchableOpacity style={styles.areaAvatar}>
+                    <Image style={styles.avatar} source={require('../../imgs/Avatar.png')} />
                 </TouchableOpacity>
 
 
-                <Text numberOfLines={1} style={styles.nameUser}>Olá, Adenilson Rosa da silva</Text>
+                <Text numberOfLines={1} style={styles.nameUser}>Olá, {user.name}</Text>
 
                 <View style={styles.areaButton}>
 
@@ -29,7 +28,7 @@ export default function Profile() {
                         <Text style={{ color: '#fff', fontSize: 22, fontWeight: 'bold' }}>Nova tarefa</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button} onPress={() => logOut()}>
                         <Text style={{ color: '#D85A5A', fontSize: 22, fontWeight: 'bold' }}>Sair</Text>
                     </TouchableOpacity>
                 </View>
