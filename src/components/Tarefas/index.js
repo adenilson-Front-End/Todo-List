@@ -3,34 +3,41 @@ import { Feather } from '@expo/vector-icons'
 import Header from "../Header";
 import { useContext } from "react";
 import { AuthContext } from "../../Contexts";
-export default function Tarefas({ data, deleteItem, finalizarTarf }) {
+export default function Tarefas({ data, deleteTarefa, finalizarTarf }) {
 
     const { tarefas } = useContext(AuthContext)
 
-    console.log(tarefas.length)
+
 
     return (
         <View style={styles.containerItens}>
 
+            {tarefas.length > 0 ? (
+                <View style={styles.areaItem}>
+                    <Text numberOfLines={1} style={{ width: 250, fontSize: 20, marginLeft: 8, fontWeight: "bold" }}>{data.tarefa}</Text>
 
+                    <View style={styles.areaButtons}>
+                        <TouchableOpacity style={styles.button}>
+                            <Feather name="edit-2" size={15} color="#fff" />
+                        </TouchableOpacity>
 
-            <View style={styles.areaItem}>
-                <Text numberOfLines={1} style={{ width: 250, fontSize: 20, marginLeft: 8, fontWeight: "bold" }}>{data.tarefa}</Text>
+                        <TouchableOpacity style={styles.button} onPress={deleteTarefa}>
+                            <Feather name="trash-2" size={15} color="#fff" />
+                        </TouchableOpacity>
 
-                <View style={styles.areaButtons}>
-                    <TouchableOpacity style={styles.button}>
-                        <Feather name="edit-2" size={15} color="#fff" />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.button} onPress={deleteItem}>
-                        <Feather name="trash-2" size={15} color="#fff" />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.button} onPress={finalizarTarf}>
-                        <Feather name="check-square" size={15} color="#fff" />
-                    </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={finalizarTarf}>
+                            <Feather name="check-square" size={15} color="#fff" />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
+
+            ) : (
+                <View style={{ flex: 1, backgroundColor: 'red' }}>
+                    <Text style={{ color: '#fff' }}>Nada por aqui</Text>
+                </View>
+
+            )}
+
 
 
         </View>

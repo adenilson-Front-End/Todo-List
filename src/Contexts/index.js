@@ -10,6 +10,8 @@ import {
 import {
     addDoc,
     collection,
+    deleteDoc,
+    doc,
     getDocs,
     onSnapshot,
     orderBy,
@@ -24,6 +26,24 @@ export default function AuthProvaider({ children }) {
     const [ user, setUser ] = useState(null);
     const [ authUser, setAuthuser ] = useState(false);
     const [ tarefas, setTarefas ] = useState([]);
+    const [ loading, setLoading ] = useState(true);
+
+    useEffect(() => {
+
+        async function loadStorange() {
+            const storangeUser = await AsyncStorage.getItem('@todoApp');
+
+            if (storangeUser) {
+                await setUser(JSON.parse(storangeUser))
+            }
+
+            setLoading(false)
+
+        }
+        loadStorange()
+    }, [])
+
+
 
     async function registerUser(email, password, name, setUser) {
         try {
@@ -39,11 +59,15 @@ export default function AuthProvaider({ children }) {
             await updateProfile(user, {
                 displayName: name, // Nome de exibição
             });
-            setUser({
+
+            const data = {
                 uid: user.uid,
                 name: user.displayName,
                 email: user.email,
-            });
+            }
+            setUser(data);
+
+            storangeUser(data)
         } catch (err) {
             console.log('Erro ao cadastrar usuario', err);
         }
@@ -62,11 +86,15 @@ export default function AuthProvaider({ children }) {
 
             const user = userCredential.user;
 
-            setUser({
+            const data = {
                 uid: user.uid,
                 email: user.email,
                 name: user.displayName,
-            });
+            }
+
+            setUser(data);
+
+            storangeUser(data)
             console.log('Logado con sucesso', user.displayName);
             setAuthuser(false);
             return;
@@ -79,11 +107,9 @@ export default function AuthProvaider({ children }) {
     useEffect(() => {
         //buscando tarefas do usuario logado
         if (user) {
-
             getTarefas();
         }
     }, [ user ]);
-
 
     async function getTarefas() {
         if (!user) {
@@ -103,6 +129,7 @@ export default function AuthProvaider({ children }) {
         try {
             const tarefasUser = await onSnapshot(q, (snaphot) => {
                 let listaDeTarefas = [];
+
                 snaphot.forEach((doc) => {
                     listaDeTarefas.push({
                         autor: doc.data().autor,
@@ -112,7 +139,9 @@ export default function AuthProvaider({ children }) {
                         createdAt: new Date(),
                     });
                 });
+
                 setTarefas(listaDeTarefas);
+
             });
         } catch (err) {
             console.log(err);
@@ -139,12 +168,18 @@ export default function AuthProvaider({ children }) {
             };
 
             setTarefas([ ...tarefas, newTarefa ]);
+
         } catch (err) {
             console.log('Erro ao cadastrar tarefa: ', err);
         }
     }
 
-    console.log(tarefas);
+    async function removeTarefa(id) {
+        const docRef = await doc(db, 'tarefas', id);
+        await deleteDoc(docRef)
+    }
+
+
 
     async function logOut() {
         await AsyncStorage.clear()
@@ -156,15 +191,22 @@ export default function AuthProvaider({ children }) {
             });
     }
 
+    async function storangeUser(data) {
+        await AsyncStorage.setItem('@todoApp', JSON.stringify(data));
+    }
+
     return (
         <AuthContext.Provider
             value={{
                 registerUser,
                 loginUser,
+                loading,
                 logOut,
                 addTarefa,
+                removeTarefa,
                 tarefas,
                 authUser,
+
 
                 signed: !!user,
                 user,

@@ -12,9 +12,11 @@ export default function Home() {
     const [ input, setInput ] = useState('')
 
     const { addTarefa } = useContext(AuthContext);
+    const navigation = useNavigation()
 
 
     async function handleTarefa() {
+
         if (input === '') {
             alert('Digite uma tarefa');
             return;
@@ -22,8 +24,9 @@ export default function Home() {
 
         try {
             await addTarefa(input);
+            navigation.navigate('A fazer')
 
-            alert('Tarefa cadastrada');
+            setInput('')
 
             return;
         } catch (err) {
@@ -31,6 +34,7 @@ export default function Home() {
 
         }
     }
+
 
     return (
         <TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => Keyboard.dismiss()} >
