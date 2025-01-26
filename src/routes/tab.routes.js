@@ -10,7 +10,7 @@ const TabAuth = createBottomTabNavigator();
 
 export default function AuthTab() {
     return (
-        <TabAuth.Navigator initialRouteName="Criar">
+        <TabAuth.Navigator initialRouteName="Criar" screenOptions={{ tabBarStyle: { borderTopWidth: 0, elevation: 0 } }}>
             <TabAuth.Screen
                 name="A fazer"
                 component={ListTarefas}

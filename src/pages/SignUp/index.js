@@ -22,6 +22,11 @@ export default function SignUp() {
 
     async function handleRegister() {
         await registerUser(email, password, nome, setUser);
+        setNome('');
+        setEmail('');
+        setPassword('');
+
+        navigation.navigate('SignIn')
     }
     return (
         <View style={styles.container}>

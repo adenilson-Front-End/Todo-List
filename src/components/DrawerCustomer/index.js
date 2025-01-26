@@ -12,8 +12,10 @@ export default function DrawerCustomer(props) {
                 <View style={styles.containerAvatar}>
                     <Image style={styles.avatar} source={imageProfile === null ? require('../../imgs/Avatar.png') : { uri: imageProfile }} />
                 </View>
-                <Text style={styles.saudacao}>Bem-vindo!</Text>
-                <Text style={styles.nameUser} numberOfLines={1}>{user.name}</Text>
+                <View style={styles.containerText}>
+                    <Text style={styles.saudacao}>Bem-vindo!</Text>
+                    <Text style={styles.nameUser} numberOfLines={1}>{user.name}</Text>
+                </View>
             </View>
 
             <DrawerItemList {...props} />
@@ -27,6 +29,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 50,
+
 
     }
 
@@ -49,16 +52,27 @@ const styles = StyleSheet.create({
         borderRadius: 200 / 2 * 100,
         objectFit: 'cover',
     },
+
+    containerText: {
+
+        width: "50%",
+        alignItems: 'center',
+        justifyContent: 'center',
+
+
+    },
     saudacao: {
-        width: 150,
+
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 10,
+
     },
     nameUser: {
-        width: 150,
+
         fontSize: 20,
-        marginBottom: 50
+        marginBottom: 50,
+
 
     }
 })

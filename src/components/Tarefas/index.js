@@ -3,7 +3,7 @@ import { Feather } from '@expo/vector-icons'
 import Header from "../Header";
 import { useContext } from "react";
 import { AuthContext } from "../../Contexts";
-export default function Tarefas({ data, deleteTarefa, finalizarTarf }) {
+export default function Tarefas({ data, deleteTarefa, tarefasConcluida, editTarefa }) {
 
     const { tarefas } = useContext(AuthContext)
 
@@ -17,7 +17,7 @@ export default function Tarefas({ data, deleteTarefa, finalizarTarf }) {
                     <Text numberOfLines={1} style={{ width: 250, fontSize: 20, marginLeft: 8, fontWeight: "bold" }}>{data.tarefa}</Text>
 
                     <View style={styles.areaButtons}>
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity style={styles.button} onPress={editTarefa}>
                             <Feather name="edit-2" size={15} color="#fff" />
                         </TouchableOpacity>
 
@@ -25,7 +25,7 @@ export default function Tarefas({ data, deleteTarefa, finalizarTarf }) {
                             <Feather name="trash-2" size={15} color="#fff" />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.button} onPress={finalizarTarf}>
+                        <TouchableOpacity style={styles.button} onPress={tarefasConcluida}>
                             <Feather name="check-square" size={15} color="#fff" />
                         </TouchableOpacity>
                     </View>
@@ -47,6 +47,7 @@ export default function Tarefas({ data, deleteTarefa, finalizarTarf }) {
 const styles = StyleSheet.create({
     containerItens: {
 
+        flex: 1,
         alignItems: 'center',
         backgroundColor: '#000',
         marginTop: 10

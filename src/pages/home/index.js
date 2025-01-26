@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ActivityIndicator } from "react-native";
 import { Feather } from '@expo/vector-icons';
 import Header from "../../components/Header";
 import { useContext, useState } from "react";
@@ -9,9 +9,9 @@ import { useNavigation } from "@react-navigation/native";
 export default function Home() {
 
 
-    const [ input, setInput ] = useState('')
 
-    const { addTarefa } = useContext(AuthContext);
+
+    const { addTarefa, addLoadingTarefa, input, setInput, updateTarefa, idEditing } = useContext(AuthContext);
     const navigation = useNavigation()
 
 
@@ -24,6 +24,7 @@ export default function Home() {
 
         try {
             await addTarefa(input);
+
             navigation.navigate('A fazer')
 
             setInput('')
@@ -36,6 +37,8 @@ export default function Home() {
     }
 
 
+
+
     return (
         <TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => Keyboard.dismiss()} >
             <View style={styles.container}>
@@ -44,13 +47,31 @@ export default function Home() {
                     <TextInput
                         value={input}
                         onChangeText={(value) => setInput(value)}
-                        style={styles.input} placeholder="Nova tarefa..." />
-                    <TouchableOpacity style={styles.button} activeOpacity={.7} onPress={handleTarefa} >
-                        <Feather name="plus" size={25} color="#000" />
-                    </TouchableOpacity>
+                        style={styles.input} placeholder={idEditing ? 'Editar tarefa...' : 'Nova tarefa...'} />
+                    {idEditing === '' ? (
+                        <TouchableOpacity style={styles.button} activeOpacity={.7} onPress={handleTarefa}  >
+                            {addLoadingTarefa ? (
+                                <ActivityIndicator size={25} color={"#000"} />
+                            ) : (
+                                <Feather name="plus" size={25} color="#000" />
+                            )}
+
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity style={styles.button} activeOpacity={.7} onPress={() => updateTarefa(idEditing)} >
+                            {addLoadingTarefa ? (
+                                <ActivityIndicator size={25} color={"#000"} />
+                            ) : (
+                                <Feather name="check" size={25} color="#000" />
+                            )}
+                        </TouchableOpacity>
+                    )}
+
+
+
                 </View>
             </View>
-        </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback >
     )
 }
 

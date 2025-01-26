@@ -12,14 +12,15 @@ const AuthDrawer = createDrawerNavigator();
 
 export default function AuthHome() {
     return (
-
-        <AuthDrawer.Navigator drawerContent={(props) => <DrawerCustomer {...props} />} screenOptions={{ headerShown: false }} >
-
+        <AuthDrawer.Navigator
+            drawerContent={(props) => <DrawerCustomer {...props} />}
+            screenOptions={{ headerShown: false, drawerPosition: 'right' }}
+        >
             <AuthDrawer.Screen name="Inicio" component={AuthTab} options={{ title: 'Inicio' }} />
             <AuthDrawer.Screen name="Home" component={Home} options={{ title: 'Home', drawerItemStyle: { display: 'none' } }} />
-            <AuthDrawer.Screen name="Tarefas" component={ListTarefas} options={{ title: "Tarefas" }} />
+
             <AuthDrawer.Screen name="Perfil" component={Profile} options={{ title: "Perfil" }} />
 
-        </AuthDrawer.Navigator >
-    )
+        </AuthDrawer.Navigator>
+    );
 }

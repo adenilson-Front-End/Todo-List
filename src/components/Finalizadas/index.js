@@ -7,7 +7,7 @@ export default function Finalizadas({ data }) {
 
 
             <View style={styles.areaItem}>
-                <Text style={styles.title}>{data.name}</Text>
+                <Text style={styles.title}>{data.tarefa}</Text>
 
 
             </View>
